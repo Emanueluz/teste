@@ -53,13 +53,15 @@ def pdi(imagem):
 def avaliar(ender,lista_png,gabarito,nome,indi):
     resultados=[]
     g=[]
+    
+    
     for imagem in range(len(gabarito)):
         if gabarito[imagem][0]+".png" in lista_png:
            
-            img =cv2.imread(ender+"\\%s"%gabarito[imagem][0]+".png")
+            img =cv2.imread(ender+"/%s"%gabarito[imagem][0]+".png")
             resultados.append(pdi(img))
  
-            g.append(int(gabarito[imagem][indi+1]))
+            g.append(int(gabarito[imagem][indi]))
         
 
     with open(nome,"w") as saida:
@@ -73,15 +75,27 @@ def avaliar(ender,lista_png,gabarito,nome,indi):
     return lista_res
 
 
-banco='E:\\hd1\\rsna-hemorrhage\\genesis-brain-hemorrhage-main\\IDP_resuts\\results'
-listas="C:\\Users\\x\\Desktop\\hemo\\lista"
-lista_tipos_h=os.listdir("C:\\Users\\x\\Desktop\\hemo\\lista")
+banco='/home/emanuel/Desktop/results/'
+listas="/home/emanuel/Desktop/teste-main/hemo"
+lista_tipos_h=os.listdir(listas)
 lista_png=caminho(banco)
 
 
-ind=0
+indi=0
 for i in  lista_tipos_h :
-    lista_txt=abrir(listas+'\\'+i)
+    if i=='epidural.txt':
+    	indi=1 
+    if i=='intraparenchymal.txt':
+    	indi=2
+    if i=='intraventricular.txt':
+    	indi=3
+    if i=='subarachnoid.txt':
+    	indi=4
+    if i=='subdural.txt':
+    	indi=5
+    
+    print(lista_tipos_h)
+    lista_txt=abrir(listas+'/'+i)
     l=lista_contem(lista_txt, lista_png)    
-    avaliar(banco,lista_png,lista_txt,'aval_'+i,ind)
-    ind=ind+1
+    avaliar(banco,lista_png,lista_txt,'aval_'+i,indi)
+
